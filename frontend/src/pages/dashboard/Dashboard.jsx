@@ -11,7 +11,7 @@ import StatsCard from "../../components/dashboard/StatsCard";
 // 🔥 CHANGE ROLE HERE FOR TESTING
 const user = {
   name: "Sarah Johnson",
-  role: "customer", // "admin" | "staff" | "customer"
+  role: "admin", // "admin" | "staff" | "customer"
 };
 
 const statsData = [
