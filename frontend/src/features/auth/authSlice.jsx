@@ -8,11 +8,12 @@ export const registerUser = createAsyncThunk(
   async (formData, thunkAPI) => {
     try {
       const response = await api.post("/api/auth/register", formData);
-
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(
-        error.response?.data || { message: "Registration failed" },
+        error.response?.data || {
+          message: "Registration failed",
+        },
       );
     }
   },
@@ -29,7 +30,9 @@ export const loginUser = createAsyncThunk(
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(
-        error.response?.data || { message: "Login failed" },
+        error.response?.data || {
+          message: "Login failed",
+        },
       );
     }
   },
@@ -42,7 +45,9 @@ export const getMe = createAsyncThunk("auth/getMe", async (_, thunkAPI) => {
     return response.data;
   } catch (error) {
     return thunkAPI.rejectWithValue(
-      error.response?.data || { message: "Failed to get user" },
+      error.response?.data || {
+        message: "Failed to get user",
+      },
     );
   }
 });
@@ -51,12 +56,18 @@ export const updateProfile = createAsyncThunk(
   "auth/updateProfile",
   async (formData, thunkAPI) => {
     try {
-      const response = await api.post("/api/auth/update-profile", formData);
+      const response = await api.post("/api/auth/update-profile", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(
-        error.response?.data || { message: "Profile update failed" },
+        error.response?.data || {
+          message: "Profile update failed",
+        },
       );
     }
   },
@@ -80,6 +91,7 @@ const authSlice = createSlice({
 
       state.user = null;
       state.token = null;
+      state.loading = false;
       state.success = false;
       state.error = null;
       state.message = null;
@@ -98,8 +110,8 @@ const authSlice = createSlice({
       // REGISTER
       .addCase(registerUser.pending, (state) => {
         state.loading = true;
-        state.error = null;
         state.success = false;
+        state.error = null;
       })
 
       .addCase(registerUser.fulfilled, (state, action) => {
@@ -110,19 +122,22 @@ const authSlice = createSlice({
 
       .addCase(registerUser.rejected, (state, action) => {
         state.loading = false;
+        state.success = false;
         state.error = action.payload;
       })
 
       // LOGIN
       .addCase(loginUser.pending, (state) => {
         state.loading = true;
-        state.error = null;
         state.success = false;
+        state.error = null;
       })
 
       .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
         state.success = true;
+        state.error = null;
+
         state.message = action.payload.message;
 
         state.token = action.payload.data.token;
@@ -131,6 +146,7 @@ const authSlice = createSlice({
 
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
+        state.success = false;
         state.error = action.payload;
       })
 
@@ -141,7 +157,9 @@ const authSlice = createSlice({
 
       .addCase(getMe.fulfilled, (state, action) => {
         state.loading = false;
-        state.user = action.payload.data;
+        state.error = null;
+
+        state.user = action.payload?.data || action.payload?.user || null;
       })
 
       .addCase(getMe.rejected, (state, action) => {
@@ -152,17 +170,28 @@ const authSlice = createSlice({
       // UPDATE PROFILE
       .addCase(updateProfile.pending, (state) => {
         state.loading = true;
+        state.success = false;
+        state.error = null;
       })
 
       .addCase(updateProfile.fulfilled, (state, action) => {
         state.loading = false;
         state.success = true;
+        state.error = null;
+
         state.message = action.payload.message;
-        state.user = action.payload.data;
+
+        if (action.payload.data) {
+          state.user = {
+            ...state.user,
+            ...action.payload.data,
+          };
+        }
       })
 
       .addCase(updateProfile.rejected, (state, action) => {
         state.loading = false;
+        state.success = false;
         state.error = action.payload;
       });
   },

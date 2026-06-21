@@ -154,7 +154,7 @@ const PublicHeader = () => {
                 )}
 
                 <Link
-                  to="/profile"
+                  to="/my-profile"
                   onClick={closeMenu}
                   className="block px-4 py-3 rounded-lg hover:bg-gray-100"
                 >
@@ -292,7 +292,7 @@ const PublicHeader = () => {
                   )}
 
                   <Link
-                    to="/profile"
+                    to="/my-profile"
                     className="block px-4 py-3 hover:bg-gray-50"
                   >
                     Profile

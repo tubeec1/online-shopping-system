@@ -6,6 +6,7 @@ import Cart from "../pages/public/Cart";
 import Checkout from "../pages/public/Checkout";
 import Signup from "../pages/public/Signup";
 import Login from "../pages/public/Login";
+import MyProfile from "../pages/public/MyProfile";
 import CategoryDetails from "../pages/public/CategoryDetails";
 import DashboardLayout from "../layouts/DashboardLayout";
 import Dashboard from "../pages/dashboard/Dashboard";
@@ -39,6 +40,7 @@ let appRoutes = createBrowserRouter([
         path: "products",
         element: <PublicProducts />,
       },
+
       {
         path: "product-details/:id",
         element: <ProductDetails />,
@@ -46,6 +48,10 @@ let appRoutes = createBrowserRouter([
       {
         path: "category-details/:categoryName",
         element: <CategoryDetails />,
+      },
+      {
+        path: "/my-profile",
+        element: <MyProfile />,
       },
       {
         path: "cart",
