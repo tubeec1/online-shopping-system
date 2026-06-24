@@ -424,11 +424,11 @@ screenshots/
 
 ### Reports Dashboard
 
-![Reports 1](screenshots/reports1.png)
+![Reports 1](screenshots/Reports1.png)
 
 ### Reports Analytics
 
-![Reports 2](screenshots/report2.png)
+![Reports 2](screenshots/Reports2.png)
 
 ---
 
